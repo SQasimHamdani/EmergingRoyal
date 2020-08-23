@@ -98,7 +98,7 @@ class GeneralController extends Controller
     public function indexCommision(Request $request)
     {
         $charge = ChargeCommision::findOrFail(1);
-        return view('admin.commision.index', compact('charge'));
+        return view('AdminPanel.PTC.commision', compact('charge'));
     }
 
     public function indexFooter(Request $request)

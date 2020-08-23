@@ -118,8 +118,7 @@ class UserPanelController extends Controller
     public function AvailableAdsIndex()
     {
         $general = General::first();
-        $add_history = UserAdvertise::where('user_id', Auth::id())
-            ->where('date',date('Y-m-d'))->count();
+        $add_history = UserAdvertise::where('user_id', Auth::id())->where('date',date('Y-m-d'))->count();
 
         if ($add_history == 0)
         {
@@ -157,7 +156,8 @@ class UserPanelController extends Controller
     	$id = $request->user_add;
         $advertise = $request->advertise;
 
-	      $user_Advertise = UserAdvertise::find($id);
+        $user_Advertise = UserAdvertise::find($id);
+        
         if ($user_Advertise->status == 1) {
         	UserAdvertise::where('add_id', $advertise)->update(['status' => 0 ]);
             $add = Advertise::whereId($advertise)->first();
@@ -165,6 +165,7 @@ class UserPanelController extends Controller
                 ->update([
                     'remain' => $add->remain + 1,
                 ]);
+
             $user = User::findOrFail(Auth::user()->id);
             $new_balance = $user['balance'] = $user['balance'] + $add->price;
             $user->save();
@@ -205,6 +206,7 @@ class UserPanelController extends Controller
             'title' => 'required',
             'link' => 'required',
         ]);
+        
         $package = Package::findOrFail($request->package_id);
         $user = User::find(Auth::id());
         $new_balance = $user['balance'] =  $user['balance'] - $package['price'];
@@ -224,10 +226,10 @@ class UserPanelController extends Controller
            'title' => $request->title,
            'token' => str_random(),
            'link' => $request->link,
-           'quantity' => $pack->click,
+           'quantity' => $package->click,
            'remain' => 0,
            'user_id' => Auth::user()->id,
-           'package_id' => $pack->id,
+           'package_id' => $package->id,
            'package_status' => 3,
         ]);
 
@@ -235,7 +237,7 @@ class UserPanelController extends Controller
          If your advertise reject, you will get your payment back.';
         send_email($user['email'], 'Advertise Create Complete' ,$user['first_name'], $message);
 
-        return redirect('UserPanel.homepage')->with('message', 'Advertise Submit Complete, wait for admin confirmation');
+        return view('UserPanel.Ads.ManageMyAds')->with('message', 'Advertise Submit Complete, wait for admin confirmation');
 
     }
 

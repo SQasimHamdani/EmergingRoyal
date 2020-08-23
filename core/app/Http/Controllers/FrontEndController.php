@@ -72,7 +72,7 @@ class FrontEndController extends Controller
     {
         
         if (Auth::check()){
-            // return '3';
+            
             return redirect()->route('home');
         }
         else{

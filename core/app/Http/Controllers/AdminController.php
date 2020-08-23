@@ -65,7 +65,7 @@ class AdminController extends Controller
     public function indexUserDetail($id)
     {
         $user = User::find($id);
-        return view('admin.user_mmanagement.view',compact('user'));
+        return view('AdminPanel.Users.view',compact('user'));
     }
 
     public function userUpdate(Request $request ,$id)
@@ -120,7 +120,7 @@ class AdminController extends Controller
     public function indexUserBalance($id)
     {
         $user = User::find($id);
-        return view('admin.user_mmanagement.balance',compact('user'));
+        return view('AdminPanel.Users.balance',compact('user'));
     }
 
     public function indexBalanceUpdate(Request $request ,$id)
@@ -182,7 +182,7 @@ class AdminController extends Controller
     public function userSendMail($id)
     {
         $user = User::find($id);
-        return view('admin.user_mmanagement.user_mail',compact('user'));
+        return view('AdminPanel.Users.user_mail',compact('user'));
     }
 
     public function userSendMailUser(Request $request, $id)
@@ -203,7 +203,7 @@ class AdminController extends Controller
             $user_notfound = 0;
             return redirect()->back()->with( 'not_found', 'Oops, User Not Found!');
         }else{
-            return view('admin.user_mmanagement.view', compact('user'));
+            return view('AdminPanel.Users.view', compact('user'));
         }
     }
 
@@ -214,7 +214,7 @@ class AdminController extends Controller
             $user_notfound = 0;
             return redirect()->back()->with( 'not_found', 'Oops, User Not Found!');
         }else{
-            return view('admin.user_mmanagement.view', compact('user'));
+            return view('AdminPanel.Users.view', compact('user'));
         }
     }
 
@@ -230,38 +230,44 @@ class AdminController extends Controller
         return view('AdminPanel.Users.free', compact('user'));
     }
 
-    public function depositLog()
+    public function userdepositLog()
     {
         $add_fund = Deposit::where('status', 1)->orderBy('id', 'desc')->get();
-        return view('admin.deposit_log', compact('add_fund'));
+        return view('AdminPanel.Users.deposit_log', compact('add_fund'));
     }
 
     public function transView($id)
     {
         $trans_object = Transaction::where('user_id', $id)->first();
         $trans = Transaction::where('user_id', $id)->orderBy('id', 'desc')->get();
-        return view('admin.user_mmanagement.trans_view', compact('trans', 'trans_object'));
+        return view('AdminPanel.Users.trans_view', compact('trans', 'trans_object'));
     }
 
     public function depositView($id)
     {
         $trans_object = Deposit::where('user_id', $id)->first();
         $trans = Deposit::where('user_id', $id)->where('status', 1)->orderBy('id', 'desc')->get();
-        return view('admin.user_mmanagement.deposit_view', compact('trans', 'trans_object'));
+        return view('AdminPanel.Users.deposit_view', compact('trans', 'trans_object'));
     }
 
     public function sendMoneyView($id)
     {
         $trans_object = Transaction::where('user_id', $id)->first();
         $trans = Transaction::where('user_id', $id)->where('type', 3)->orderBy('id', 'desc')->get();
-        return view('admin.user_mmanagement.send_money_view', compact('trans', 'trans_object'));
+        return view('AdminPanel.Users.send_money_view', compact('trans', 'trans_object'));
     }
 
+    public function withDrawView($id)
+    {
+        $trans_object = WithdrawTrasection::where('user_id', $id)->first();
+        $trans = WithdrawTrasection::where('user_id', $id)->where('status', 1)->orderBy('id', 'desc')->get();
+        return view('AdminPanel.Users.withdraw_view', compact('trans', 'trans_object'));
+    }
 
     public function newAddvertise()
     {
         $add = Advertise::orderBy('id', 'desc')->where('package_status', 1)->paginate(15);
-        return view('admin.ptc.add', compact('add'));
+        return view('AdminPanel.PTC.add', compact('add'));
     }
 
     public function newAddvertiseStore(Request $request)
@@ -288,7 +294,12 @@ class AdminController extends Controller
     public function newAddvertiseEdit($id)
     {
         $add = Advertise::findOrFail($id);
-        return view('admin.ptc.edit', compact('add'));
+        return view('AdminPanel.PTC.edit', compact('add'));
+    }
+
+    public function limitIndex()
+    {
+        return view('AdminPanel.PTC.settings');
     }
 
     public function newAddvertiseUpdate(Request $request,$id)
@@ -313,7 +324,7 @@ class AdminController extends Controller
     public function packageIndex()
     {
         $pack = Package::all();
-        return view('admin.package.index', compact('pack'));
+        return view('AdminPanel.PTC.package.index', compact('pack'));
     }
 
     public function packageStore(Request $request)
@@ -349,7 +360,7 @@ class AdminController extends Controller
     public function packageEdit($id)
     {
         $pack = Package::findOrFail($id);
-        return view('admin.package.edit',compact('pack'));
+        return view('AdminPanel.PTC.package.edit',compact('pack'));
     }
 
     public function packageUpdate(Request $request, $id)
@@ -394,7 +405,7 @@ class AdminController extends Controller
     public function reqAddIndex()
     {
         $add = Advertise::where('package_status', 3)->paginate(15);
-        return view('admin.req_advertise.index', compact('add'));
+        return view('AdminPanel.PTC.req_advertise.index', compact('add'));
     }
 
     public function approveAdd(Request $request)
@@ -455,19 +466,16 @@ class AdminController extends Controller
     public function rejectAddIndex()
     {
         $add = Advertise::where('package_status', 0)->paginate(15);
-        return view('admin.req_advertise.reject_ad', compact('add'));
+        return view('AdminPanel.PTC.req_advertise.reject_ad', compact('add'));
     }
 
     public function allAddIndex()
     {
         $add = Advertise::where('user_id' ,'!=' , null)->where('package_status', 1)->paginate(15);
-        return view('admin.req_advertise.all_ad', compact('add'));
+        return view('AdminPanel.PTC.req_advertise.all_ad', compact('add'));
     }
 
-    public function limitIndex()
-    {
-        return view('admin.ptc.settings');
-    }
+    
 
     public function buyPackageHistory()
     {

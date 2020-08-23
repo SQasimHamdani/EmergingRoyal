@@ -60,6 +60,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('/login', 'AdminAuth\LoginController@showLoginForm')->name('login');
     Route::post('/login', 'AdminAuth\LoginController@login');
+    
     Route::post('/logout', 'AdminAuth\LoginController@logout')->name('admin.logout');
 
     Route::middleware(['admin'])->group(function () {
@@ -101,7 +102,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('free/user', 'AdminController@freeUser')->name('free.user.index')->middleware('admin');
 
 
-
         Route::get('buy/package/history', 'AdminController@buyPackageHistory')->name('buy.package.user')->middleware('admin');
         Route::put('limitation/update/{id}', 'GeneralController@limitUpdate')->name('manage.limit')->middleware('admin');
         Route::get('ptc/limitation', 'AdminController@limitIndex')->name('ptc.limit')->middleware('admin');
@@ -135,12 +135,12 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('advertises', 'AdminController@allAddIndex')->name('all.add.index')->middleware('admin');
 
 /////////////////////////////////////////////////////////////        
-        
+        // User Detail View Routes
         Route::get('send/money/{id}', 'AdminController@sendMoneyView')->name('user.total.send.money')->middleware('admin');
         Route::get('withdraw/view/{id}', 'AdminController@withDrawView')->name('user.total.withdraw')->middleware('admin');
         Route::get('add/fund/view/{id}', 'AdminController@depositView')->name('user.total.deposit')->middleware('admin');
         Route::get('transaction/view/{id}', 'AdminController@transView')->name('user.total.trans')->middleware('admin');
-        Route::get('add/fund/user', 'AdminController@depositLog')->name('index.deposit.user')->middleware('admin');
+        Route::get('add/fund/user', 'AdminController@userdepositLog')->name('index.deposit.user')->middleware('admin');
         
 /////////////////////////////////////////////////////////////
 

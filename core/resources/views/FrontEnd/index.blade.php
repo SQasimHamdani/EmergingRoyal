@@ -43,7 +43,7 @@
                             <h3 class="text-center name" style="font-size: 25px;">Total Active Members</h3>
                             <p class="text-center description" 
                             style="background-color: #f4d86c;color: rgb(255,255,255);padding: 10px 0px;font-size: 30px;">
-                            {{\App\User::where('status', 1)->count('id')}}
+                                {{\App\User::where('status', 1)->count('id')}}
                         </p>
                         </div>
                     </div>

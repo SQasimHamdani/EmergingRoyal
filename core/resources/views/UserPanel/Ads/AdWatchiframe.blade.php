@@ -99,16 +99,25 @@
         </div>
     </div>
 </nav>
-
 <div class="container" style="width: 100%; height: 100%">
     <div class="text-center">
-    
-        <iframe 
-            src="{{
-                $add->link
-            }}?rel=0&autoplay=1&loop=1&mute=0&controls=0"
-            width="100%" height="500px" seamless>
-        </iframe>
+        @if (str_contains($add->link, "youtube"))
+            <iframe 
+                src="{{
+                    $add->link
+                }}?rel=0&autoplay=1&loop=1&mute=0&controls=0"
+                width="100%" height="500px" seamless>
+            </iframe>
+        @else
+            <iframe 
+                src="{{
+                    $add->link
+                }}"
+                width="100%" height="500px" seamless>
+            </iframe>
+        @endif
+            
+        
     </div>
     </div>
 
